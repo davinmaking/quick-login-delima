@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Panduan Makmal — Pasang Beramai-ramai — Quick Login DELIMa</title>
 <meta name="description" content="Cara memasang Quick Login DELIMa pada 30–100 komputer makmal: USB bergilir, folder kongsi rangkaian, atau tolakan Veyon.">
-<link rel="icon" type="image/png" href="logo.png">
+<link rel="icon" type="image/png" href="favicon.png">
 <meta property="og:title" content="Panduan Makmal — Pasang Beramai-ramai — Quick Login DELIMa">
 <meta property="og:description" content="Cara memasang Quick Login DELIMa pada 30–100 komputer makmal: USB bergilir, folder kongsi rangkaian, atau tolakan Veyon.">
 <meta property="og:image" content="https://quicklogin.davinhub.com/logo.png">
@@ -437,15 +437,16 @@
         <pre><code>cmd /c \\PELAYAN\kongsi\quick-login\pasang.bat &lt;NUL</code></pre>
         <p>
           (<code>&lt;NUL</code> melangkau tetingkap "tekan apa-apa kekunci" supaya pemasangan
-          selesai tanpa sentuhan. Run program berjalan dalam sesi pengguna biasa —
-          tiada hak admin diperlukan.)
+          selesai tanpa sentuhan. Veyon biasanya menjalankan program dalam sesi pengguna
+          yang sedang log masuk — pemasangan itu sendiri tidak perlukan hak admin. Jika ikon
+          tidak muncul di Desktop murid, semak tetapan sesi "Run program" Veyon anda.)
         </p>
         <p>
           Tiada folder kongsi? Anda boleh tolak muat-turun pemasang <strong>contoh</strong>
           (tanpa senarai sebenar) ke Desktop setiap komputer, kemudian seorang murid
           klik <code>pasang.bat</code> di setiap satu:
         </p>
-        <pre><code>powershell -NoProfile -Command "iwr 'https://quicklogin.davinhub.com/muat-turun/quick-login-delima.zip' -OutFile $env:TEMP\ql.zip; Expand-Archive $env:TEMP\ql.zip ([Environment]::GetFolderPath('Desktop')+'\quick-login') -Force"</code></pre>
+        <pre><code>powershell -NoProfile -Command "iwr 'https://quicklogin.davinhub.com/muat-turun/quick-login-delima.zip' -OutFile $env:TEMP\ql.zip; Expand-Archive $env:TEMP\ql.zip ([Environment]::GetFolderPath('Desktop')+'\quick-login') -Force; Remove-Item $env:TEMP\ql.zip"</code></pre>
         <p>
           Senarai murid sebenar kemudiannya perlu sampai melalui USB atau folder kongsi —
           bukan internet.
