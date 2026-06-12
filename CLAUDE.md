@@ -8,6 +8,7 @@
 - `launcher/data/roster.js` ships ONLY as fake example data
 - The in-browser generator is 100% client-side; uploaded xlsx and generated roster.js never touch a server
 - Real class roster stays on the teacher's machine only
+- Personalized installer zips (`quick-login-delima-sekolah.zip`) contain REAL rosters — never commit them, never host them on the open internet (incl. Drive "anyone with link"); USB / school LAN only
 
 ## Artifacts
 
@@ -15,7 +16,7 @@
 - Distributed as a zip; teacher extracts and double-clicks `pasang.bat`
 
 **`site/`** — static HTML on Cloudflare Pages (`quicklogin.davinhub.com`)
-- Landing page, in-browser roster generator (`jana.html`), install guide, privacy page
+- Landing, roster generator (`jana.html` — builds the personalized installer zip in-browser via fflate CDN; keep the CDN version pin in sync with package.json), install guide (`panduan.html`), lab mass-deploy guide (`panduan-makmal.html`), privacy page
 - Mirrors the pattern of `~/Developer/smis-helper-site/`
 
 ## Launcher Tech Constraints
@@ -25,6 +26,7 @@
 - NO build step — teacher edits or replaces `roster.js`, not compiled output
 - Roster loaded via `<script src="data/roster.js">` which sets `window.ROSTER`
 - Login link `continue=` parameter only accepts Google-owned domains (e.g. `classroom.google.com`)
+- Class picker: >12 classes → two-level (group view derived from class-name prefixes: Tahun/Tingkatan N, Pra*, PPKI*, Peralihan, else Lain-lain); ≤12 → flat grid
 
 ## No-Admin Model
 
@@ -52,4 +54,4 @@
 - Build installer zip: `node tools/build-zip.mjs` (or `npm run build:zip`)
 - Run parser tests: `npm test` (`node --test` → `tests/parser.test.mjs`)
 - Local site preview: `cd site && python3 -m http.server 8777`
-- Roster parser `site/js/jana.js` ports `~/Developer/makmal-komputer/login-launcher/build-roster-xlsx.py` (Tahun/Pra sheets; PPKI = two side-by-side blocks; GURU skipped)
+- Roster parser `site/js/jana.js`: legacy school format ported from `~/Developer/makmal-komputer/login-launcher/build-roster-xlsx.py` (Tahun/Pra sheets; PPKI = two side-by-side blocks; GURU skipped) PLUS generic `Kelas | Nama | Emel` template sheets (header-detected, class keys verbatim)
