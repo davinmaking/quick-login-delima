@@ -103,6 +103,13 @@
     .file-label span { font-size: 1rem; font-weight: 600; }
     .file-label small { font-size: 0.85rem; color: #666; }
 
+    .templat-note { margin-top: 14px; font-size: .92rem; color: #555; }
+    .templat-note button {
+      font: inherit; color: inherit; background: none;
+      border: none; padding: 0; cursor: pointer;
+      text-decoration: underline; font-weight: 600;
+    }
+
     input[type="file"] { display: none; }
 
     #result { display: none; }
@@ -220,6 +227,10 @@
         <small>Format: xlsx eksport daripada sistem ID DELIMa</small>
       </label>
       <input type="file" id="xlsxInput" accept=".xlsx" />
+      <p class="templat-note">Format sekolah anda berbeza? Guna templat umum —
+        isi tiga lajur <code>Kelas | Nama | Emel</code> dan muat naik semula:
+        <button type="button" id="btnTemplat">⬇ Templat kosong (.xlsx)</button>
+      </p>
     </div>
 
     <div id="result">
@@ -309,6 +320,19 @@
 
       const status = document.getElementById("status");
       status.textContent = "roster.js dimuat turun. Salin ke login-launcher/data/ dan gantikan fail lama.";
+    });
+
+    document.getElementById("btnTemplat").addEventListener("click", () => {
+      const rows = [
+        ["Kelas", "Nama", "Emel"],
+        ["Tahun 1 Bestari", "ALI BIN ABU (CONTOH)", "m-1234567@moe-dl.edu.my"],
+        ["Tahun 1 Bestari", "SITI BINTI SU (CONTOH)", "m-2345678@moe-dl.edu.my"],
+        ["Tingkatan 4 Amanah", "MEI LING (CONTOH)", "m-3456789@moe-dl.edu.my"],
+      ];
+      const ws = XLSX.utils.aoa_to_sheet(rows);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Senarai");
+      XLSX.writeFile(wb, "templat-roster.xlsx");
     });
   </script>
 </body>
