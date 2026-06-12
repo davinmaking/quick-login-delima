@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<!-- NOTE: ESM import below requires HTTP (Cloudflare Pages / python3 -m http.server).
+     It will NOT work when opened directly via file:// due to CORS restrictions on modules.
+     Serve with: cd site && python3 -m http.server 8777 -->
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jana Roster · Quick Login DELIMa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Fredoka', sans-serif;
+      background: #FBF4E6;
+      color: #2A2A35;
+      min-height: 100vh;
+      padding: 2rem 1rem 4rem;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    header p.sub {
+      font-size: 1rem;
+      color: #555;
+      margin-top: 0.4rem;
+    }
+
+    a.back {
+      display: inline-block;
+      font-size: 0.9rem;
+      color: #2A2A35;
+      text-decoration: none;
+      border: 2.5px solid #2A2A35;
+      border-radius: 8px;
+      padding: 0.25rem 0.75rem;
+      box-shadow: 3px 3px 0 #2A2A35;
+      margin-top: 0.75rem;
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+    a.back:hover { transform: translate(2px, 2px); box-shadow: 1px 1px 0 #2A2A35; }
+
+    .card {
+      background: #fff;
+      border: 2.5px solid #2A2A35;
+      border-radius: 14px;
+      box-shadow: 5px 5px 0 #2A2A35;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .card h2 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .privacy-note {
+      background: #FFF9E6;
+      border: 2.5px solid #FFD43B;
+      border-radius: 12px;
+      box-shadow: 5px 5px 0 #FFD43B;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .file-label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      border: 2.5px dashed #2A2A35;
+      border-radius: 12px;
+      padding: 2rem 1rem;
+      cursor: pointer;
+      transition: background 0.15s;
+      text-align: center;
+    }
+    .file-label:hover { background: #FFF3C4; }
+
+    .file-label .icon { font-size: 2.5rem; }
+    .file-label span { font-size: 1rem; font-weight: 600; }
+    .file-label small { font-size: 0.85rem; color: #666; }
+
+    input[type="file"] { display: none; }
+
+    #result { display: none; }
+
+    .stats {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-box {
+      flex: 1;
+      min-width: 120px;
+      background: #FFD43B;
+      border: 2.5px solid #2A2A35;
+      border-radius: 12px;
+      box-shadow: 5px 5px 0 #2A2A35;
+      padding: 0.75rem 1rem;
+      text-align: center;
+    }
+
+    .stat-box .num {
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .stat-box .lbl {
+      font-size: 0.85rem;
+      margin-top: 0.2rem;
+    }
+
+    .stat-box.dropped {
+      background: #FFE8E8;
+    }
+
+    .class-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .class-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #F4F0E8;
+      border: 2px solid #2A2A35;
+      border-radius: 8px;
+      padding: 0.4rem 0.75rem;
+      font-size: 0.95rem;
+    }
+
+    .class-list li .count {
+      background: #FFD43B;
+      border: 1.5px solid #2A2A35;
+      border-radius: 6px;
+      padding: 0 0.5rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .btn-download {
+      display: block;
+      width: 100%;
+      background: #FFD43B;
+      color: #2A2A35;
+      border: 2.5px solid #2A2A35;
+      border-radius: 12px;
+      box-shadow: 5px 5px 0 #2A2A35;
+      padding: 0.9rem 1rem;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+    .btn-download:hover { transform: translate(2px, 2px); box-shadow: 3px 3px 0 #2A2A35; }
+    .btn-download:active { transform: translate(4px, 4px); box-shadow: 1px 1px 0 #2A2A35; }
+
+    #status {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #888;
+      margin-top: 0.5rem;
+      min-height: 1.2em;
+    }
+    #status.error { color: #c0392b; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>📋 Jana Roster</h1>
+      <p class="sub">Quick Login DELIMa</p>
+      <a class="back" href="index.html">← Kembali</a>
+    </header>
+
+    <div class="privacy-note">
+      🔒 Data anda <strong>TIDAK dimuat naik</strong> ke mana-mana.<br>
+      Semua pemprosesan berlaku dalam pelayar anda.
+      <br><small style="color:#666;">Your data stays in your browser — nothing is uploaded.</small>
+    </div>
+
+    <div class="card">
+      <h2>1. Pilih fail ID DELIMa (.xlsx)</h2>
+      <label class="file-label" for="xlsxInput">
+        <span class="icon">📂</span>
+        <span>Klik untuk pilih fail</span>
+        <small>Format: xlsx eksport daripada sistem ID DELIMa</small>
+      </label>
+      <input type="file" id="xlsxInput" accept=".xlsx" />
+    </div>
+
+    <div id="result">
+      <div class="card">
+        <h2>2. Keputusan</h2>
+        <div class="stats">
+          <div class="stat-box">
+            <div class="num" id="statTotal">0</div>
+            <div class="lbl">Murid berjaya</div>
+          </div>
+          <div class="stat-box dropped">
+            <div class="num" id="statDropped">0</div>
+            <div class="lbl">Dibuang / tidak sah</div>
+          </div>
+        </div>
+        <ul class="class-list" id="classList"></ul>
+        <button class="btn-download" id="btnDownload">⬇ Muat turun roster.js</button>
+        <p id="status"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SheetJS — CDN, no build step needed -->
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+
+  <!-- ESM parser — requires HTTP server (not file://) -->
+  <script type="module">
+    import { buildRoster, rosterToJs } from "./js/jana.js";
+
+    let _roster = null;
+
+    document.getElementById("xlsxInput").addEventListener("change", async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const status = document.getElementById("status");
+      status.textContent = "Memproses...";
+      status.className = "";
+
+      try {
+        const buf = await file.arrayBuffer();
+        const wb = XLSX.read(buf, { type: "array" });
+
+        const sheets = {};
+        wb.SheetNames.forEach(n => {
+          sheets[n] = XLSX.utils.sheet_to_json(wb.Sheets[n], { header: 1, raw: false, defval: "" });
+        });
+
+        const { roster, total, dropped } = buildRoster(sheets);
+        _roster = roster;
+
+        // Update stats
+        document.getElementById("statTotal").textContent = total;
+        document.getElementById("statDropped").textContent = dropped;
+
+        // Per-class breakdown
+        const ul = document.getElementById("classList");
+        ul.innerHTML = "";
+        const keys = Object.keys(roster).sort((a, b) => a.localeCompare(b));
+        for (const k of keys) {
+          const li = document.createElement("li");
+          li.innerHTML = `<span>${k}</span><span class="count">${roster[k].length}</span>`;
+          ul.appendChild(li);
+        }
+
+        document.getElementById("result").style.display = "block";
+        status.textContent = total > 0 ? `✓ ${total} murid daripada ${keys.length} kelas dijumpai.` : "Tiada murid ditemui — semak format fail.";
+      } catch (err) {
+        const status = document.getElementById("status");
+        status.textContent = "Ralat: " + err.message;
+        status.className = "error";
+        console.error(err);
+      }
+    });
+
+    document.getElementById("btnDownload").addEventListener("click", () => {
+      if (!_roster) return;
+      const js = rosterToJs(_roster);
+      const blob = new Blob([js], { type: "text/javascript" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "roster.js";
+      a.click();
+      URL.revokeObjectURL(url);
+
+      const status = document.getElementById("status");
+      status.textContent = "roster.js dimuat turun. Salin ke login-launcher/data/ dan gantikan fail lama.";
+    });
+  </script>
+</body>
+</html>
