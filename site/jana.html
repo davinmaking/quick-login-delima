@@ -193,6 +193,8 @@
     }
     .btn-download:hover { transform: translate(2px, 2px); box-shadow: 3px 3px 0 #2A2A35; }
     .btn-download:active { transform: translate(4px, 4px); box-shadow: 1px 1px 0 #2A2A35; }
+    .roster-only { margin-top: 10px; font-size: .9rem; color: #555; }
+    .roster-only a { color: inherit; font-weight: 600; }
 
     #status {
       text-align: center;
@@ -247,7 +249,9 @@
           </div>
         </div>
         <ul class="class-list" id="classList"></ul>
-        <button class="btn-download" id="btnDownload">⬇ Muat turun roster.js</button>
+        <button class="btn-download" id="btnZip">⬇ Muat turun pemasang penuh (.zip)</button>
+        <p class="roster-only">atau <a href="#" id="lnkRoster">muat turun roster.js sahaja</a>
+          — untuk kemas kini pemasangan sedia ada</p>
         <p id="status"></p>
       </div>
     </div>
@@ -256,6 +260,8 @@
 
   <!-- SheetJS — CDN, no build step needed -->
   <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+  <!-- fflate — in-browser zip (same lib the deploy build uses) -->
+  <script src="https://cdn.jsdelivr.net/npm/fflate@0.8.2/umd/index.js"></script>
 
   <!-- ESM parser — requires HTTP server (not file://) -->
   <script type="module">
@@ -307,19 +313,44 @@
       }
     });
 
-    document.getElementById("btnDownload").addEventListener("click", () => {
-      if (!_roster) return;
-      const js = rosterToJs(_roster);
-      const blob = new Blob([js], { type: "text/javascript" });
-      const url = URL.createObjectURL(blob);
+    function muatTurunFail(data, nama, jenis) {
+      const url = URL.createObjectURL(new Blob([data], { type: jenis }));
       const a = document.createElement("a");
       a.href = url;
-      a.download = "roster.js";
+      a.download = nama;
       a.click();
       URL.revokeObjectURL(url);
+    }
 
+    document.getElementById("lnkRoster").addEventListener("click", (e) => {
+      e.preventDefault();
+      if (!_roster) return;
+      muatTurunFail(rosterToJs(_roster), "roster.js", "text/javascript");
+      document.getElementById("status").textContent =
+        "roster.js dimuat turun. Salin ke login-launcher/data/ dan gantikan fail lama.";
+    });
+
+    document.getElementById("btnZip").addEventListener("click", async () => {
+      if (!_roster) return;
       const status = document.getElementById("status");
-      status.textContent = "roster.js dimuat turun. Salin ke login-launcher/data/ dan gantikan fail lama.";
+      status.className = "";
+      try {
+        status.textContent = "Menyediakan pemasang...";
+        const res = await fetch("muat-turun/quick-login-delima.zip");
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const files = fflate.unzipSync(new Uint8Array(await res.arrayBuffer()));
+        files["data/roster.js"] = new TextEncoder().encode(rosterToJs(_roster));
+        const out = fflate.zipSync(files, { level: 9 });
+        muatTurunFail(out, "quick-login-delima-sekolah.zip", "application/zip");
+        status.textContent =
+          "✓ Pemasang dimuat turun — senarai murid anda sudah di dalamnya. " +
+          "Ekstrak zip dan klik dua kali pasang.bat.";
+      } catch (err) {
+        console.error(err);
+        status.className = "error";
+        status.textContent = "Tidak dapat menyediakan zip penuh (" + err.message +
+          "). Sila guna pautan 'roster.js sahaja' di bawah.";
+      }
     });
 
     document.getElementById("btnTemplat").addEventListener("click", () => {
