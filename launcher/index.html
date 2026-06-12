@@ -412,7 +412,8 @@
   function labelBesar(kelas) {
     var m = kelas.match(/\d+/);
     if (m) return m[0];
-    return kelas.replace(/^PPKI\s*/i, '').charAt(0).toUpperCase();
+    var s = kelas.replace(/^PPKI\s*/i, '');
+    return (s || kelas).charAt(0).toUpperCase();
   }
 
   function tunjuk(view, tajukMs, tajukZh) {

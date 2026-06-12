@@ -7,7 +7,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jana Roster · Quick Login DELIMa</title>
-  <meta name="description" content="Jana fail roster.js untuk Quick Login DELIMa daripada fail ID DELIMa (.xlsx) anda. Semua dalam pelayar — data tidak dimuat naik." />
+  <meta name="description" content="Jana pemasang penuh Quick Login DELIMa daripada fail ID DELIMa (.xlsx) anda. Semua dalam pelayar — data tidak dimuat naik." />
   <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -261,7 +261,7 @@
   <!-- SheetJS — CDN, no build step needed -->
   <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
   <!-- fflate — in-browser zip (same lib the deploy build uses) -->
-  <script src="https://cdn.jsdelivr.net/npm/fflate@0.8.2/umd/index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fflate@0.8.3/umd/index.js"></script>
 
   <!-- ESM parser — requires HTTP server (not file://) -->
   <script type="module">
@@ -299,7 +299,13 @@
         const keys = Object.keys(roster).sort((a, b) => a.localeCompare(b));
         for (const k of keys) {
           const li = document.createElement("li");
-          li.innerHTML = `<span>${k}</span><span class="count">${roster[k].length}</span>`;
+          const nameSpan = document.createElement("span");
+          nameSpan.textContent = k;
+          const countSpan = document.createElement("span");
+          countSpan.className = "count";
+          countSpan.textContent = roster[k].length;
+          li.appendChild(nameSpan);
+          li.appendChild(countSpan);
           ul.appendChild(li);
         }
 
