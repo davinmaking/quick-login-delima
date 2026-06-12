@@ -1,26 +1,27 @@
-// Zips launcher/ into site/muat-turun/quick-login-delima.zip (the installer the site serves).
-// Pure-Node (archiver) so it runs in CI without a system `zip`. Run: node tools/build-zip.mjs
-import archiver from "archiver";
-import { createWriteStream, mkdirSync, rmSync } from "node:fs";
+// Zips launcher/ into site/muat-turun/quick-login-delima.zip using fflate
+// (pure JS, ESM, no native deps) so it builds in Cloudflare CI. Run: node tools/build-zip.mjs
+import { zipSync } from "fflate";
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, statSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { dirname, join } from "node:path";
+import { dirname, join, relative, sep } from "node:path";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const launcher = join(root, "launcher");
 const outDir = join(root, "site", "muat-turun");
-const out = join(outDir, "quick-login-delima.zip");
 
+function collect(dir, files = {}) {
+  for (const name of readdirSync(dir)) {
+    if (name === ".DS_Store") continue;
+    const full = join(dir, name);
+    if (statSync(full).isDirectory()) collect(full, files);
+    else files[relative(launcher, full).split(sep).join("/")] = new Uint8Array(readFileSync(full));
+  }
+  return files;
+}
+
+const files = collect(launcher);
+const zipped = zipSync(files, { level: 9 });
 mkdirSync(outDir, { recursive: true });
-rmSync(out, { force: true });
-
-const output = createWriteStream(out);
-const archive = archiver("zip", { zlib: { level: 9 } });
-
-output.on("close", () => console.log("built", out, `(${archive.pointer()} bytes)`));
-archive.on("warning", (err) => { throw err; });
-archive.on("error", (err) => { throw err; });
-
-archive.pipe(output);
-// add launcher/ contents at the zip root; skip macOS junk
-archive.glob("**/*", { cwd: launcher, dot: false, ignore: ["**/.DS_Store", "**/__MACOSX/**"] });
-await archive.finalize();
+const out = join(outDir, "quick-login-delima.zip");
+writeFileSync(out, zipped);
+console.log("built", out, `(${zipped.length} bytes, ${Object.keys(files).length} files)`);

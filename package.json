@@ -9,6 +9,6 @@
     "test": "node --test"
   },
   "dependencies": {
-    "archiver": "^8.0.0"
+    "fflate": "^0.8.3"
   }
 }
