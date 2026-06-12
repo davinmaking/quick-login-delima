@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Panduan Pemasangan — Quick Login DELIMa</title>
-<meta name="description" content="Panduan langkah demi langkah untuk memasang Quick Login DELIMa di makmal komputer sekolah anda.">
+<title>Panduan Makmal — Pasang Beramai-ramai — Quick Login DELIMa</title>
+<meta name="description" content="Cara memasang Quick Login DELIMa pada 30–100 komputer makmal: USB bergilir, folder kongsi rangkaian, atau tolakan Veyon.">
 <link rel="icon" type="image/png" href="logo.png">
-<meta property="og:title" content="Panduan Pemasangan — Quick Login DELIMa">
-<meta property="og:description" content="Panduan langkah demi langkah untuk memasang Quick Login DELIMa di makmal komputer sekolah anda.">
+<meta property="og:title" content="Panduan Makmal — Pasang Beramai-ramai — Quick Login DELIMa">
+<meta property="og:description" content="Cara memasang Quick Login DELIMa pada 30–100 komputer makmal: USB bergilir, folder kongsi rangkaian, atau tolakan Veyon.">
 <meta property="og:image" content="https://quicklogin.davinhub.com/logo.png">
-<meta property="og:url" content="https://quicklogin.davinhub.com/panduan.html">
+<meta property="og:url" content="https://quicklogin.davinhub.com/panduan-makmal.html">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ms_MY">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -215,7 +215,7 @@
     color: var(--ink);
   }
 
-  /* colour band per step number */
+  /* colour band per step letter */
   .step-1 .step-num { background: var(--violet); }
   .step-2 .step-num { background: var(--yellow); }
   .step-3 .step-num { background: var(--peach); }
@@ -315,6 +315,10 @@
   .cta-block p { color: var(--ink); font-size: .95rem; font-weight: 500; margin-bottom: 24px; }
   .cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
 
+  /* ---------- pre/code blocks ---------- */
+  pre { background: var(--ink); color: var(--paper); border-radius: 12px;
+        padding: 14px 18px; overflow-x: auto; font-size: .88rem; margin: 12px 0; }
+
   /* ---------- footer ---------- */
   footer {
     border-top: 2.5px solid var(--ink);
@@ -360,151 +364,104 @@
 <main>
 <div class="page-wrap">
 
-  <a href="index.html" class="back-link" aria-label="Kembali ke laman utama">
-    &larr; Kembali ke laman utama
+  <a href="panduan.html" class="back-link" aria-label="Kembali ke panduan pemasangan">
+    &larr; Kembali ke panduan pemasangan
   </a>
 
-  <div class="section-label">PANDUAN</div>
-  <h1 class="page-title">Panduan Pemasangan</h1>
+  <div class="section-label">UNTUK GURU TMK / JURUTEKNIK</div>
+  <h1 class="page-title">Pasang Beramai-ramai di Makmal</h1>
   <p class="page-sub">
-    Ikut lima langkah ini untuk memasang Quick Login DELIMa di makmal komputer sekolah anda.
-    Keseluruhan proses mengambil masa kurang daripada 15 minit.
+    Ada 30–100 komputer? Jangan pasang satu-satu. Pilih SATU daripada tiga cara di bawah —
+    semuanya bermula dengan <strong>pemasang penuh</strong> yang anda jana di
+    halaman <a href="jana.html">Jana senarai</a>.
   </p>
 
-  <ol class="steps-list" aria-label="Langkah pemasangan">
+  <div class="callout" role="note">
+    <span class="callout-icon" aria-hidden="true">&#9888;&#65039;</span>
+    <span><strong>Jangan sesekali</strong> muat naik zip pemasang anda ke internet terbuka
+    (laman web, pautan Drive "anyone with link") — ia mengandungi nama dan emel murid.
+    USB dan rangkaian dalaman sekolah sahaja.</span>
+  </div>
 
-    <!-- LANGKAH 1 -->
+  <ol class="steps-list" aria-label="Pilihan pemasangan beramai-ramai">
+
     <li class="step-card step-1">
       <div class="step-header">
-        <div class="step-num" aria-label="Langkah 1">1</div>
-        <h2>Jana pemasang anda</h2>
+        <div class="step-num" aria-label="Pilihan A">A</div>
+        <h2>USB bergilir — tiada apa-apa prasyarat</h2>
       </div>
       <div class="step-body">
         <p>
-          Pergi ke halaman <a href="jana.html">Jana senarai</a> dan muat naik fail
-          <strong>ID DELIMa (.xlsx)</strong> sekolah anda. Klik
-          <strong>"Muat turun pemasang penuh (.zip)"</strong> — anda akan mendapat
-          <code>quick-login-delima-sekolah.zip</code> yang sudah mengandungi senarai murid anda.
+          Ekstrak zip pemasang ke 2–3 pemacu USB. Semasa kelas, beri setiap murid
+          beberapa komputer: cucuk USB, buka folder, <strong>klik dua kali
+          <code>pasang.bat</code></strong> — siap dalam ~10 saat sekomputer, terus dari USB
+          tanpa salin dahulu. 100 komputer &asymp; satu waktu kelas.
         </p>
-        <p>
-          Format fail anda berbeza? Muat turun <strong>templat kosong</strong> di halaman
-          yang sama, isi tiga lajur <code>Kelas | Nama | Emel</code>, dan muat naik semula.
-        </p>
-        <div class="callout" role="note">
-          <span class="callout-icon" aria-hidden="true">&#128274;</span>
-          <span>Fail <code>.xlsx</code> anda <strong>tidak dimuat naik ke mana-mana server</strong>.
-          Semua pemprosesan berlaku dalam pelayar anda sendiri.</span>
-        </div>
       </div>
     </li>
 
-    <!-- LANGKAH 2 -->
     <li class="step-card step-2">
       <div class="step-header">
-        <div class="step-num" aria-label="Langkah 2">2</div>
-        <h2>Ekstrak fail zip</h2>
+        <div class="step-num" aria-label="Pilihan B">B</div>
+        <h2>Folder kongsi rangkaian</h2>
       </div>
       <div class="step-body">
         <p>
-          Klik kanan <code>quick-login-delima-sekolah.zip</code> dan pilih
-          <strong>"Extract All"</strong> untuk mengekstrak ke satu folder
-          (atau terus ke pemacu USB jika mahu memasang di makmal).
+          Jika makmal anda ada pelayan / folder kongsi: letak folder pemasang (sudah diekstrak)
+          di <code>\\PELAYAN\kongsi\quick-login\</code>. Di setiap komputer, buka folder itu dan
+          jalankan <code>pasang.bat</code> terus dari situ.
+        </p>
+        <p>
+          <strong>Tahun baharu?</strong> Ganti folder di pelayan dengan pemasang baharu,
+          jalankan semula <code>pasang.bat</code> di setiap komputer. Data murid kekal
+          dalam rangkaian sekolah.
         </p>
       </div>
     </li>
 
-    <!-- LANGKAH 3 -->
     <li class="step-card step-3">
       <div class="step-header">
-        <div class="step-num" aria-label="Langkah 3">3</div>
-        <h2>Pasang pada komputer</h2>
+        <div class="step-num" aria-label="Pilihan C">C</div>
+        <h2>Veyon — satu klik untuk seluruh makmal</h2>
       </div>
       <div class="step-body">
         <p>
-          Klik <strong>DUA KALI</strong> fail <code>pasang.bat</code> dalam folder tersebut.
-          Tunggu sehingga tetingkap arahan menunjukkan <strong>"Selesai!"</strong>.
-          Ikon <strong>Quick Login</strong> akan muncul di Desktop.
+          Makmal yang sudah ada <a href="https://veyon.io" target="_blank" rel="noopener">Veyon</a>
+          (perisian kawalan makmal — pemasangannya sekali sahaja oleh juruteknik) boleh menolak
+          pemasangan ke <strong>semua komputer serentak</strong>. Gabungan terbaik:
+          Veyon + folder kongsi (Pilihan B).
         </p>
-        <div class="callout" role="note">
-          <span class="callout-icon" aria-hidden="true">&#10003;</span>
-          <span><strong>Tiada admin diperlukan.</strong> Skrip ini berjalan sebagai pengguna Windows biasa.
-          Anda tidak perlu menghubungi pejabat IT sekolah.</span>
-        </div>
-        <figure class="step-media">
-          <div class="media-ph" role="img" aria-label="Skrinsut akan ditambah: tetingkap arahan menunjukkan mesej Selesai dan ikon di Desktop">
-            Skrinsut akan ditambah: <em>tetingkap arahan menunjukkan "Selesai!" dan ikon di Desktop</em>
-          </div>
-        </figure>
-      </div>
-    </li>
-
-    <!-- LANGKAH 4 -->
-    <li class="step-card step-4">
-      <div class="step-header">
-        <div class="step-num" aria-label="Langkah 4">4</div>
-        <h2>Guna bersama murid</h2>
-      </div>
-      <div class="step-body">
         <p>
-          Murid klik ikon <strong>Quick Login</strong> di Desktop.
-          Tetingkap incognito Chrome akan terbuka dengan papan nama kelas.
-          Murid klik nama sendiri, sahkan, kemudian taip kata laluan DELIMa.
-          Mereka akan terus masuk ke Google Classroom.
-          <strong>Tutup tetingkap</strong> selepas sesi tamat supaya kelas seterusnya mendapat skrin yang bersih.
+          Dalam Veyon Master, pilih semua komputer &rarr; <strong>Run program</strong> &rarr; taip:
         </p>
-        <figure class="step-media">
-          <div class="media-ph" role="img" aria-label="Skrinsut akan ditambah: papan nama kelas dalam tetingkap incognito Chrome">
-            Skrinsut akan ditambah: <em>papan nama kelas dalam tetingkap incognito Chrome</em>
-          </div>
-        </figure>
-      </div>
-    </li>
-
-    <!-- LANGKAH 5 -->
-    <li class="step-card step-5">
-      <div class="step-header">
-        <div class="step-num" aria-label="Langkah 5">5</div>
-        <h2>Nyahpasang (jika perlu)</h2>
-      </div>
-      <div class="step-body">
+        <pre><code>cmd /c \\PELAYAN\kongsi\quick-login\pasang.bat &lt;NUL</code></pre>
         <p>
-          Jika anda ingin menyingkirkan Quick Login daripada komputer,
-          klik dua kali fail <code>nyahpasang.bat</code> dalam folder yang sama.
-          Ikon di Desktop dan semua tetapan yang berkaitan akan dibuang.
+          (<code>&lt;NUL</code> melangkau tetingkap "tekan apa-apa kekunci" supaya pemasangan
+          selesai tanpa sentuhan. Run program berjalan dalam sesi pengguna biasa —
+          tiada hak admin diperlukan.)
         </p>
-        <figure class="step-media">
-          <div class="media-ph" role="img" aria-label="Skrinsut akan ditambah: fail nyahpasang.bat dalam folder pemasangan">
-            Skrinsut akan ditambah: <em>fail nyahpasang.bat dalam folder pemasangan</em>
-          </div>
-        </figure>
-      </div>
-    </li>
-
-    <li class="step-card step-6">
-      <div class="step-header">
-        <div class="step-num" aria-label="Petua">&#8635;</div>
-        <h2>Tahun baharu, senarai baharu</h2>
-      </div>
-      <div class="step-body">
         <p>
-          Jana semula pemasang di <a href="jana.html">Jana senarai</a> dengan fail xlsx terkini,
-          kemudian jalankan <code>pasang.bat</code> sekali lagi — fail lama akan diganti secara automatik.
-          Tidak perlu nyahpasang dahulu.
+          Tiada folder kongsi? Anda boleh tolak muat-turun pemasang <strong>contoh</strong>
+          (tanpa senarai sebenar) ke Desktop setiap komputer, kemudian seorang murid
+          klik <code>pasang.bat</code> di setiap satu:
+        </p>
+        <pre><code>powershell -NoProfile -Command "iwr 'https://quicklogin.davinhub.com/muat-turun/quick-login-delima.zip' -OutFile $env:TEMP\ql.zip; Expand-Archive $env:TEMP\ql.zip ([Environment]::GetFolderPath('Desktop')+'\quick-login') -Force"</code></pre>
+        <p>
+          Senarai murid sebenar kemudiannya perlu sampai melalui USB atau folder kongsi —
+          bukan internet.
         </p>
       </div>
     </li>
 
   </ol>
 
-  <div class="callout" role="note"><span class="callout-icon" aria-hidden="true">&#128187;</span><span>Banyak komputer di makmal? Lihat <a href="panduan-makmal.html"><strong>panduan pasang beramai-ramai</strong></a> (USB bergilir / rangkaian / Veyon).</span></div>
-
   <!-- CTA -->
   <div class="cta-block">
-    <h2>Sedia untuk bermula?</h2>
-    <p>Muat turun fail pemasangan dan jana senarai kelas anda sekarang.</p>
+    <h2>Belum jana pemasang anda?</h2>
+    <p>Muat naik fail xlsx anda dan dapatkan pemasang penuh dalam satu klik.</p>
     <div class="cta-btns">
-      <a href="muat-turun/quick-login-delima.zip" class="btn-primary" download>Muat turun</a>
-      <a href="jana.html" class="btn-secondary">Jana senarai kelas</a>
+      <a href="jana.html" class="btn-primary">Jana senarai kelas</a>
+      <a href="panduan.html" class="btn-secondary">Panduan asas</a>
     </div>
   </div>
 
