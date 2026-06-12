@@ -252,7 +252,7 @@
         <button class="btn-download" id="btnZip">⬇ Muat turun pemasang penuh (.zip)</button>
         <p class="roster-only">atau <a href="#" id="lnkRoster">muat turun roster.js sahaja</a>
           — untuk kemas kini pemasangan sedia ada</p>
-        <p id="status"></p>
+            <p id="status" role="status" aria-live="polite"></p>
       </div>
     </div>
     </main>
@@ -330,8 +330,11 @@
         "roster.js dimuat turun. Salin ke login-launcher/data/ dan gantikan fail lama.";
     });
 
-    document.getElementById("btnZip").addEventListener("click", async () => {
+    document.getElementById("btnZip").addEventListener("click", async (e) => {
       if (!_roster) return;
+      const btn = e.currentTarget;
+      if (btn.disabled) return;
+      btn.disabled = true;
       const status = document.getElementById("status");
       status.className = "";
       try {
@@ -348,8 +351,10 @@
       } catch (err) {
         console.error(err);
         status.className = "error";
-        status.textContent = "Tidak dapat menyediakan zip penuh (" + err.message +
-          "). Sila guna pautan 'roster.js sahaja' di bawah.";
+        status.textContent = "Tidak dapat menyediakan zip penuh. " +
+          "Sila guna pautan 'roster.js sahaja' di bawah.";
+      } finally {
+        btn.disabled = false;
       }
     });
 
