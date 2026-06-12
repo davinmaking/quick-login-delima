@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://quicklogin.davinhub.com/sitemap.xml
