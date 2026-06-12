@@ -1,0 +1,16 @@
+QUICK LOGIN DELIMa — Panduan Pemasangan Ringkas
+================================================
+
+1. Klik dua kali pada fail "pasang.bat" untuk memasang launcher.
+   (Tiada hak Administrator diperlukan.)
+
+2. Ikon "Quick Login" akan muncul di Desktop selepas pemasangan selesai.
+
+3. Murid klik ikon "Quick Login" di Desktop, pilih kelas, klik nama,
+   kemudian taip kata laluan Google sahaja.
+
+4. Untuk tukar atau kemaskini senarai kelas:
+   - Jana fail roster baharu di: quicklogin.davinhub.com
+   - Ganti fail "data\roster.js" di dalam folder C:\login-launcher
+
+5. Untuk nyahpasang, klik dua kali pada fail "nyahpasang.bat".
