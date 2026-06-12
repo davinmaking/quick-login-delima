@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panduan Pemasangan — Quick Login DELIMa</title>
+<meta name="description" content="Panduan langkah demi langkah untuk memasang Quick Login DELIMa di makmal komputer sekolah anda.">
+<link rel="icon" type="image/png" href="logo.png">
+<meta property="og:title" content="Panduan Pemasangan — Quick Login DELIMa">
+<meta property="og:description" content="Panduan langkah demi langkah untuk memasang Quick Login DELIMa di makmal komputer sekolah anda.">
+<meta property="og:image" content="https://quicklogin.davinhub.com/logo.png">
+<meta property="og:url" content="https://quicklogin.davinhub.com/panduan.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ms_MY">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #FBF4E6;
+    --ink: #2A2A35;
+    --ink-soft: #6E6A5E;
+    --card: #FFFFFF;
+    --go: #69DB7C;
+    --focus: #4CC9F0;
+    --yellow: #FFD43B;
+    --coral: #FF8787;
+    --sky: #66D9E8;
+    --violet: #91A7FF;
+    --mint: #96F2D7;
+    --peach: #FFC078;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: "Fredoka", "Segoe UI", system-ui, sans-serif;
+    color: var(--ink);
+    background:
+      radial-gradient(rgba(42,42,53,.06) 1.6px, transparent 1.6px) 0 0 / 26px 26px,
+      var(--paper);
+    min-height: 100vh;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
+
+  :focus-visible {
+    outline: 4px solid var(--focus);
+    outline-offset: 3px;
+    border-radius: 8px;
+  }
+
+  /* ---------- nav ---------- */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--paper);
+    border-bottom: 2.5px solid var(--ink);
+    box-shadow: 0 3px 0 var(--ink);
+  }
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .nav-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-brand img { width: 36px; height: 36px; border-radius: 10px; }
+  .nav-links { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .nav-links a {
+    font-weight: 600;
+    font-size: .92rem;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 999px;
+    transition: background .12s;
+  }
+  .nav-links a:hover { background: rgba(42,42,53,.08); }
+  .nav-dl {
+    font-family: inherit;
+    font-weight: 700;
+    font-size: .92rem;
+    color: var(--ink);
+    background: var(--yellow);
+    border: 2.5px solid var(--ink);
+    border-radius: 999px;
+    box-shadow: 3px 3px 0 var(--ink);
+    padding: 8px 18px;
+    text-decoration: none;
+    transition: transform .12s, box-shadow .12s;
+    display: inline-block;
+  }
+  .nav-dl:hover  { transform: translate(-1px,-2px); box-shadow: 5px 5px 0 var(--ink); }
+  .nav-dl:active { transform: translate(2px,2px);  box-shadow: 1px 1px 0 var(--ink); }
+  @media (max-width: 600px) {
+    .nav-links a:not(.nav-dl) { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav-dl, .btn-primary, .btn-secondary,
+    .step-card { transition: none; }
+  }
+
+  /* ---------- layout ---------- */
+  .page-wrap {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 64px 24px 80px;
+  }
+  .section-label {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--paper);
+    font-weight: 600;
+    font-size: .78rem;
+    letter-spacing: .18em;
+    padding: 5px 14px;
+    border-radius: 999px;
+    transform: rotate(-1.5deg);
+    margin-bottom: 18px;
+  }
+  .page-title {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 700;
+    line-height: 1.12;
+    margin-bottom: 12px;
+  }
+  .page-sub {
+    color: var(--ink-soft);
+    font-size: 1.05rem;
+    font-weight: 500;
+    line-height: 1.55;
+    margin-bottom: 48px;
+  }
+
+  /* ---------- TOC back link ---------- */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    font-size: .9rem;
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    margin-bottom: 36px;
+  }
+  .back-link:hover { opacity: .7; }
+
+  /* ---------- step cards ---------- */
+  .steps-list {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .step-card {
+    background: var(--card);
+    border: 2.5px solid var(--ink);
+    border-radius: 20px;
+    box-shadow: 6px 6px 0 var(--ink);
+    overflow: hidden;
+    transition: transform .12s, box-shadow .12s;
+  }
+  .step-card:hover { transform: translate(-2px,-3px); box-shadow: 9px 9px 0 var(--ink); }
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 24px 24px 0;
+  }
+  .step-num {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    border: 2.5px solid var(--ink);
+    box-shadow: 3px 3px 0 var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .step-card h2 { font-size: 1.15rem; font-weight: 700; line-height: 1.25; }
+  .step-body {
+    padding: 16px 24px 24px;
+    font-size: .95rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+  .step-body a { color: var(--ink); font-weight: 700; text-underline-offset: 3px; }
+  .step-body a:hover { opacity: .7; }
+  .step-body strong { color: var(--ink); }
+  .step-body code {
+    font-family: "Courier New", Courier, monospace;
+    background: rgba(42,42,53,.07);
+    border: 1.5px solid rgba(42,42,53,.15);
+    border-radius: 6px;
+    padding: 2px 7px;
+    font-size: .88em;
+    color: var(--ink);
+  }
+
+  /* colour band per step number */
+  .step-1 .step-num { background: var(--violet); }
+  .step-2 .step-num { background: var(--yellow); }
+  .step-3 .step-num { background: var(--peach); }
+  .step-4 .step-num { background: var(--go); }
+  .step-5 .step-num { background: var(--sky); }
+  .step-6 .step-num { background: var(--coral); }
+
+  /* ---------- callout boxes ---------- */
+  .callout {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    background: var(--mint);
+    border: 2.5px solid var(--ink);
+    border-radius: 14px;
+    box-shadow: 4px 4px 0 var(--ink);
+    padding: 14px 18px;
+    margin-top: 14px;
+    font-size: .9rem;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .callout-icon {
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    line-height: 1.2;
+  }
+
+  /* ---------- media placeholder ---------- */
+  .step-media {
+    margin: 16px 0 0;
+  }
+  .media-ph {
+    border: 2px dashed rgba(42,42,53,.3);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    font-size: .85rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+    background: rgba(42,42,53,.03);
+  }
+
+  /* ---------- buttons ---------- */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--ink);
+    background: var(--go);
+    border: 2.5px solid var(--ink);
+    border-radius: 999px;
+    box-shadow: 5px 5px 0 var(--ink);
+    padding: 14px 28px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform .12s, box-shadow .12s;
+  }
+  .btn-primary:hover  { transform: translate(-2px,-3px); box-shadow: 8px 8px 0 var(--ink); }
+  .btn-primary:active { transform: translate(3px,4px);  box-shadow: 1px 1px 0 var(--ink); }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--ink);
+    background: var(--card);
+    border: 2.5px solid var(--ink);
+    border-radius: 999px;
+    box-shadow: 5px 5px 0 var(--ink);
+    padding: 14px 28px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform .12s, box-shadow .12s;
+  }
+  .btn-secondary:hover  { transform: translate(-2px,-3px); box-shadow: 8px 8px 0 var(--ink); }
+  .btn-secondary:active { transform: translate(3px,4px);  box-shadow: 1px 1px 0 var(--ink); }
+
+  /* ---------- CTA bottom ---------- */
+  .cta-block {
+    margin-top: 56px;
+    background: var(--mint);
+    border: 2.5px solid var(--ink);
+    border-radius: 24px;
+    box-shadow: 8px 8px 0 var(--ink);
+    padding: 40px 32px;
+    text-align: center;
+  }
+  .cta-block h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 10px; }
+  .cta-block p { color: var(--ink-soft); font-size: .95rem; font-weight: 500; margin-bottom: 24px; }
+  .cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+  /* ---------- footer ---------- */
+  footer {
+    border-top: 2.5px solid var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+    padding: 40px 24px;
+    text-align: center;
+  }
+  footer .foot-inner { max-width: 1100px; margin: 0 auto; }
+  footer .foot-name { font-size: 1rem; font-weight: 600; margin-bottom: 8px; }
+  footer a {
+    color: var(--yellow);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-weight: 600;
+  }
+  footer a:hover { opacity: .8; }
+  footer .foot-note {
+    margin-top: 12px;
+    font-size: .82rem;
+    color: rgba(251,244,230,.55);
+    font-weight: 500;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav aria-label="Navigasi utama">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">
+      <img src="logo.png" alt="Logo Quick Login DELIMa">
+      Quick Login DELIMa
+    </a>
+    <div class="nav-links" role="list">
+      <a href="jana.html" role="listitem">Jana senarai</a>
+      <a href="privacy.html" role="listitem">Privasi</a>
+      <a href="muat-turun/quick-login-delima.zip" class="nav-dl" role="listitem" download>Muat turun</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+<div class="page-wrap">
+
+  <a href="index.html" class="back-link" aria-label="Kembali ke laman utama">
+    &larr; Kembali ke laman utama
+  </a>
+
+  <div class="section-label">PANDUAN</div>
+  <h1 class="page-title">Panduan Pemasangan</h1>
+  <p class="page-sub">
+    Ikut enam langkah ini untuk memasang Quick Login DELIMa di makmal komputer sekolah anda.
+    Keseluruhan proses mengambil masa kurang daripada 15 minit.
+  </p>
+
+  <ol class="steps-list" aria-label="Langkah pemasangan">
+
+    <!-- LANGKAH 1 -->
+    <li class="step-card step-1">
+      <div class="step-header">
+        <div class="step-num" aria-label="Langkah 1">1</div>
+        <h2>Jana senarai kelas</h2>
+      </div>
+      <div class="step-body">
+        <p>
+          Pergi ke halaman <a href="jana.html">Jana senarai</a>.
+          Muat naik fail <strong>ID DELIMa (.xlsx)</strong> sekolah anda menggunakan butang
+          "Pilih fail". Klik <strong>"Muat turun roster.js"</strong> untuk mendapatkan fail senarai murid.
+        </p>
+        <div class="callout" role="note">
+          <span class="callout-icon" aria-hidden="true">&#128274;</span>
+          <span>Fail <code>.xlsx</code> anda <strong>tidak dimuat naik ke mana-mana server</strong>.
+          Semua pemprosesan berlaku dalam pelayar anda sendiri.</span>
+        </div>
+        <figure class="step-media">
+          <div class="media-ph" role="img" aria-label="Skrinsut akan ditambah: halaman jana senarai dengan butang muat naik fail">
+            Skrinsut akan ditambah: <em>halaman jana senarai dengan butang muat naik fail</em>
+          </div>
+        </figure>
+      </div>
+    </li>
+
+    <!-- LANGKAH 2 -->
+    <li class="step-card step-2">
+      <div class="step-header">
+        <div class="step-num" aria-label="Langkah 2">2</div>
+        <h2>Muat turun Quick Login</h2>
+      </div>
+      <div class="step-body">
+        <p>
+          Klik <a href="muat-turun/quick-login-delima.zip" download><strong>"Muat turun"</strong></a>
+          untuk mendapatkan fail <code>quick-login-delima.zip</code>.
+          Selepas muat turun selesai, klik kanan fail zip tersebut dan pilih
+          <strong>"Extract All"</strong> (atau gunakan aplikasi seperti 7-Zip)
+          untuk mengekstrak ke satu folder di komputer anda.
+        </p>
+        <figure class="step-media">
+          <div class="media-ph" role="img" aria-label="Skrinsut akan ditambah: fail zip yang sedang diekstrak dalam Windows Explorer">
+            Skrinsut akan ditambah: <em>fail zip yang sedang diekstrak dalam Windows Explorer</em>
+          </div>
+        </figure>
+      </div>
+    </li>
+
+    <!-- LANGKAH 3 -->
+    <li class="step-card step-3">
+      <div class="step-header">
+        <div class="step-num" aria-label="Langkah 3">3</div>
+        <h2>Ganti senarai murid</h2>
+      </div>
+      <div class="step-body">
+        <p>
+          Salin fail <code>roster.js</code> yang anda jana pada Langkah 1 ke dalam
+          folder <code>data\</code> di dalam folder yang telah diekstrak.
+          Gantikan fail contoh <code>data\roster.js</code> yang sedia ada.
+        </p>
+        <figure class="step-media">
+          <div class="media-ph" role="img" aria-label="Skrinsut akan ditambah: fail roster.js disalin ke dalam folder data">
+            Skrinsut akan ditambah: <em>fail roster.js disalin ke dalam folder data\</em>
+          </div>
+        </figure>
+      </div>
+    </li>
+
+    <!-- LANGKAH 4 -->
+    <li class="step-card step-4">
+      <div class="step-header">
+        <div class="step-num" aria-label="Langkah 4">4</div>
+        <h2>Pasang pada komputer</h2>
+      </div>
+      <div class="step-body">
+        <p>
+          Klik <strong>DUA KALI</strong> fail <code>pasang.bat</code> dalam folder tersebut.
+          Tunggu sehingga tetingkap arahan menunjukkan <strong>"Selesai!"</strong>.
+          Ikon <strong>Quick Login</strong> akan muncul di Desktop.
+        </p>
+        <div class="callout" role="note">
+          <span class="callout-icon" aria-hidden="true">&#10003;</span>
+          <span><strong>Tiada admin diperlukan.</strong> Skrip ini berjalan sebagai pengguna Windows biasa.
+          Anda tidak perlu menghubungi pejabat IT sekolah.</span>
+        </div>
+        <figure class="step-media">
+          <div class="media-ph" role="img" aria-label="Skrinsut akan ditambah: tetingkap arahan menunjukkan mesej Selesai dan ikon di Desktop">
+            Skrinsut akan ditambah: <em>tetingkap arahan menunjukkan "Selesai!" dan ikon di Desktop</em>
+          </div>
+        </figure>
+      </div>
+    </li>
+
+    <!-- LANGKAH 5 -->
+    <li class="step-card step-5">
+      <div class="step-header">
+        <div class="step-num" aria-label="Langkah 5">5</div>
+        <h2>Guna bersama murid</h2>
+      </div>
+      <div class="step-body">
+        <p>
+          Murid klik ikon <strong>Quick Login</strong> di Desktop.
+          Tetingkap incognito Chrome akan terbuka dengan papan nama kelas.
+          Murid klik nama sendiri, sahkan, kemudian taip kata laluan DELIMa.
+          Mereka akan terus masuk ke Google Classroom.
+          <strong>Tutup tetingkap</strong> selepas sesi tamat supaya kelas seterusnya mendapat skrin yang bersih.
+        </p>
+        <figure class="step-media">
+          <div class="media-ph" role="img" aria-label="Skrinsut akan ditambah: papan nama kelas dalam tetingkap incognito Chrome">
+            Skrinsut akan ditambah: <em>papan nama kelas dalam tetingkap incognito Chrome</em>
+          </div>
+        </figure>
+      </div>
+    </li>
+
+    <!-- LANGKAH 6 -->
+    <li class="step-card step-6">
+      <div class="step-header">
+        <div class="step-num" aria-label="Langkah 6">6</div>
+        <h2>Nyahpasang (jika perlu)</h2>
+      </div>
+      <div class="step-body">
+        <p>
+          Jika anda ingin menyingkirkan Quick Login daripada komputer,
+          klik dua kali fail <code>nyahpasang.bat</code> dalam folder yang sama.
+          Ikon di Desktop dan semua tetapan yang berkaitan akan dibuang.
+        </p>
+        <figure class="step-media">
+          <div class="media-ph" role="img" aria-label="Skrinsut akan ditambah: fail nyahpasang.bat dalam folder pemasangan">
+            Skrinsut akan ditambah: <em>fail nyahpasang.bat dalam folder pemasangan</em>
+          </div>
+        </figure>
+      </div>
+    </li>
+
+  </ol>
+
+  <!-- CTA -->
+  <div class="cta-block">
+    <h2>Sedia untuk bermula?</h2>
+    <p>Muat turun fail pemasangan dan jana senarai kelas anda sekarang.</p>
+    <div class="cta-btns">
+      <a href="muat-turun/quick-login-delima.zip" class="btn-primary" download>Muat turun</a>
+      <a href="jana.html" class="btn-secondary">Jana senarai kelas</a>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-inner">
+    <p class="foot-name">Dibuat oleh Cikgu Davin</p>
+    <p><a href="https://davinhub.com" target="_blank" rel="noopener">davinhub.com</a></p>
+    <p class="foot-note">Quick Login DELIMa &middot; Alat percuma untuk sekolah rendah Malaysia</p>
+  </div>
+</footer>
+
+</body>
+</html>
