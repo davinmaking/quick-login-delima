@@ -367,7 +367,7 @@
   <div class="section-label">PANDUAN</div>
   <h1 class="page-title">Panduan Pemasangan</h1>
   <p class="page-sub">
-    Ikut enam langkah ini untuk memasang Quick Login DELIMa di makmal komputer sekolah anda.
+    Ikut lima langkah ini untuk memasang Quick Login DELIMa di makmal komputer sekolah anda.
     Keseluruhan proses mengambil masa kurang daripada 15 minit.
   </p>
 
@@ -377,24 +377,24 @@
     <li class="step-card step-1">
       <div class="step-header">
         <div class="step-num" aria-label="Langkah 1">1</div>
-        <h2>Jana senarai kelas</h2>
+        <h2>Jana pemasang anda</h2>
       </div>
       <div class="step-body">
         <p>
-          Pergi ke halaman <a href="jana.html">Jana senarai</a>.
-          Muat naik fail <strong>ID DELIMa (.xlsx)</strong> sekolah anda menggunakan butang
-          "Pilih fail". Klik <strong>"Muat turun roster.js"</strong> untuk mendapatkan fail senarai murid.
+          Pergi ke halaman <a href="jana.html">Jana senarai</a> dan muat naik fail
+          <strong>ID DELIMa (.xlsx)</strong> sekolah anda. Klik
+          <strong>"Muat turun pemasang penuh (.zip)"</strong> — anda akan mendapat
+          <code>quick-login-delima-sekolah.zip</code> yang sudah mengandungi senarai murid anda.
+        </p>
+        <p>
+          Format fail anda berbeza? Muat turun <strong>templat kosong</strong> di halaman
+          yang sama, isi tiga lajur <code>Kelas | Nama | Emel</code>, dan muat naik semula.
         </p>
         <div class="callout" role="note">
           <span class="callout-icon" aria-hidden="true">&#128274;</span>
           <span>Fail <code>.xlsx</code> anda <strong>tidak dimuat naik ke mana-mana server</strong>.
           Semua pemprosesan berlaku dalam pelayar anda sendiri.</span>
         </div>
-        <figure class="step-media">
-          <div class="media-ph" role="img" aria-label="Skrinsut akan ditambah: halaman jana senarai dengan butang muat naik fail">
-            Skrinsut akan ditambah: <em>halaman jana senarai dengan butang muat naik fail</em>
-          </div>
-        </figure>
       </div>
     </li>
 
@@ -402,48 +402,21 @@
     <li class="step-card step-2">
       <div class="step-header">
         <div class="step-num" aria-label="Langkah 2">2</div>
-        <h2>Muat turun Quick Login</h2>
+        <h2>Ekstrak fail zip</h2>
       </div>
       <div class="step-body">
         <p>
-          Klik <a href="muat-turun/quick-login-delima.zip" download><strong>"Muat turun"</strong></a>
-          untuk mendapatkan fail <code>quick-login-delima.zip</code>.
-          Selepas muat turun selesai, klik kanan fail zip tersebut dan pilih
-          <strong>"Extract All"</strong> (atau gunakan aplikasi seperti 7-Zip)
-          untuk mengekstrak ke satu folder di komputer anda.
+          Klik kanan <code>quick-login-delima-sekolah.zip</code> dan pilih
+          <strong>"Extract All"</strong> untuk mengekstrak ke satu folder
+          (atau terus ke pemacu USB jika mahu memasang di makmal).
         </p>
-        <figure class="step-media">
-          <div class="media-ph" role="img" aria-label="Skrinsut akan ditambah: fail zip yang sedang diekstrak dalam Windows Explorer">
-            Skrinsut akan ditambah: <em>fail zip yang sedang diekstrak dalam Windows Explorer</em>
-          </div>
-        </figure>
       </div>
     </li>
 
     <!-- LANGKAH 3 -->
-    <li class="step-card step-3">
-      <div class="step-header">
-        <div class="step-num" aria-label="Langkah 3">3</div>
-        <h2>Ganti senarai murid</h2>
-      </div>
-      <div class="step-body">
-        <p>
-          Salin fail <code>roster.js</code> yang anda jana pada Langkah 1 ke dalam
-          folder <code>data\</code> di dalam folder yang telah diekstrak.
-          Gantikan fail contoh <code>data\roster.js</code> yang sedia ada.
-        </p>
-        <figure class="step-media">
-          <div class="media-ph" role="img" aria-label="Skrinsut akan ditambah: fail roster.js disalin ke dalam folder data">
-            Skrinsut akan ditambah: <em>fail roster.js disalin ke dalam folder data\</em>
-          </div>
-        </figure>
-      </div>
-    </li>
-
-    <!-- LANGKAH 4 -->
     <li class="step-card step-4">
       <div class="step-header">
-        <div class="step-num" aria-label="Langkah 4">4</div>
+        <div class="step-num" aria-label="Langkah 3">3</div>
         <h2>Pasang pada komputer</h2>
       </div>
       <div class="step-body">
@@ -465,10 +438,10 @@
       </div>
     </li>
 
-    <!-- LANGKAH 5 -->
+    <!-- LANGKAH 4 -->
     <li class="step-card step-5">
       <div class="step-header">
-        <div class="step-num" aria-label="Langkah 5">5</div>
+        <div class="step-num" aria-label="Langkah 4">4</div>
         <h2>Guna bersama murid</h2>
       </div>
       <div class="step-body">
@@ -487,10 +460,10 @@
       </div>
     </li>
 
-    <!-- LANGKAH 6 -->
+    <!-- LANGKAH 5 -->
     <li class="step-card step-6">
       <div class="step-header">
-        <div class="step-num" aria-label="Langkah 6">6</div>
+        <div class="step-num" aria-label="Langkah 5">5</div>
         <h2>Nyahpasang (jika perlu)</h2>
       </div>
       <div class="step-body">
@@ -504,6 +477,20 @@
             Skrinsut akan ditambah: <em>fail nyahpasang.bat dalam folder pemasangan</em>
           </div>
         </figure>
+      </div>
+    </li>
+
+    <li class="step-card step-6">
+      <div class="step-header">
+        <div class="step-num" aria-label="Petua">&#8635;</div>
+        <h2>Tahun baharu, senarai baharu</h2>
+      </div>
+      <div class="step-body">
+        <p>
+          Jana semula pemasang di <a href="jana.html">Jana senarai</a> dengan fail xlsx terkini,
+          kemudian jalankan <code>pasang.bat</code> sekali lagi — fail lama akan diganti secara automatik.
+          Tidak perlu nyahpasang dahulu.
+        </p>
       </div>
     </li>
 
