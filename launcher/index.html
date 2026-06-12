@@ -57,7 +57,7 @@
   .hidden { display: none !important; }
 
   /* ---------- asas butang ---------- */
-  button.tile, #btn-back, .huruf {
+  button.tile, #btn-back, #btn-back-tahap, .huruf {
     font-family: inherit;
     color: var(--ink);
     border: 2.5px solid var(--ink);
@@ -76,7 +76,7 @@
   }
   button.tile:hover  { transform: translate(-2px,-3px) rotate(-.4deg); box-shadow: 8px 9px 0 var(--ink); }
   button.tile:active { transform: translate(3px,4px); box-shadow: 1px 1px 0 var(--ink); }
-  button.tile:focus-visible, #btn-back:focus-visible, .huruf:focus-visible, #search:focus-visible {
+  button.tile:focus-visible, #btn-back:focus-visible, #btn-back-tahap:focus-visible, .huruf:focus-visible, #search:focus-visible {
     outline: 4px solid var(--focus);
     outline-offset: 3px;
   }
@@ -85,8 +85,8 @@
     to   { opacity: 1; transform: scale(1)   translateY(0); }
   }
 
-  /* ---------- langkah 1: kelas ---------- */
-  #grid-kelas {
+  /* ---------- langkah 0 & 1: grid tahap / kelas ---------- */
+  #grid-kelas, #grid-tahap {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
     gap: 18px;
@@ -109,7 +109,7 @@
     flex-wrap: wrap;
     margin-bottom: 22px;
   }
-  #btn-back {
+  #btn-back, #btn-back-tahap {
     font-weight: 600;
     font-size: 1.05rem;
     background: var(--card);
@@ -117,8 +117,8 @@
     box-shadow: 4px 4px 0 var(--ink);
     padding: 10px 20px;
   }
-  #btn-back:hover  { transform: translate(-1px,-2px); box-shadow: 6px 7px 0 var(--ink); }
-  #btn-back:active { transform: translate(2px,3px);  box-shadow: 1px 1px 0 var(--ink); }
+  #btn-back:hover, #btn-back-tahap:hover   { transform: translate(-1px,-2px); box-shadow: 6px 7px 0 var(--ink); }
+  #btn-back:active, #btn-back-tahap:active { transform: translate(2px,3px);  box-shadow: 1px 1px 0 var(--ink); }
   .kelas-chip {
     flex: 1;
     min-width: 160px;
@@ -272,7 +272,7 @@
   }
   @media (prefers-reduced-motion: reduce) {
     button.tile, .sah-kad { animation: none; opacity: 1; }
-    button.tile, #btn-back, .huruf, .sah-btn { transition: none; }
+    button.tile, #btn-back, #btn-back-tahap, .huruf, .sah-btn { transition: none; }
   }
 </style>
 </head>
@@ -283,8 +283,17 @@
 </header>
 
 <main>
+  <!-- langkah 0 (sekolah besar sahaja) -->
+  <section id="view-tahap" class="hidden">
+    <div id="grid-tahap"></div>
+  </section>
+
   <!-- langkah 1 -->
   <section id="view-kelas">
+    <div class="toolbar hidden" id="bar-tahap">
+      <button id="btn-back-tahap">← Kembali 返回</button>
+      <div class="kelas-chip" id="nama-tahap"></div>
+    </div>
     <div id="grid-kelas"></div>
   </section>
 
@@ -343,6 +352,11 @@
   var sahNama = document.getElementById('sah-nama');
   var sahKelas = document.getElementById('sah-kelas');
 
+  var viewTahap = document.getElementById('view-tahap');
+  var gridTahap = document.getElementById('grid-tahap');
+  var barTahap = document.getElementById('bar-tahap');
+  var namaTahap = document.getElementById('nama-tahap');
+
   var kelasSemasa = null;
   var muridSemasa = null;
 
@@ -354,6 +368,37 @@
 
   var senaraiKelas = Object.keys(window.ROSTER);
   var kurangGerak = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var AMBANG_DUA_ARAS = 12;
+  var SUSUNAN = ['Prasekolah', 'Tahun 1', 'Tahun 2', 'Tahun 3', 'Tahun 4', 'Tahun 5',
+    'Tahun 6', 'Peralihan', 'Tingkatan 1', 'Tingkatan 2', 'Tingkatan 3', 'Tingkatan 4',
+    'Tingkatan 5', 'PPKI', 'Lain-lain'];
+
+  function namaKumpulan(kelas) {
+    var m;
+    if ((m = kelas.match(/^tahun\s*(\d)/i))) return 'Tahun ' + m[1];
+    if ((m = kelas.match(/^tingkatan\s*(\d)/i))) return 'Tingkatan ' + m[1];
+    if (/^pra/i.test(kelas)) return 'Prasekolah';
+    if (/^ppki/i.test(kelas)) return 'PPKI';
+    if (/^peralihan/i.test(kelas)) return 'Peralihan';
+    return 'Lain-lain';
+  }
+
+  var kumpulanKelas = {};
+  senaraiKelas.forEach(function (kelas) {
+    var k = namaKumpulan(kelas);
+    (kumpulanKelas[k] = kumpulanKelas[k] || []).push(kelas);
+  });
+  var senaraiKumpulan = Object.keys(kumpulanKelas).sort(function (a, b) {
+    return SUSUNAN.indexOf(a) - SUSUNAN.indexOf(b);
+  });
+  senaraiKumpulan.forEach(function (k) {
+    kumpulanKelas[k].sort(function (a, b) {
+      return a.localeCompare(b, undefined, { numeric: true });
+    });
+  });
+  var duaAras = senaraiKelas.length > AMBANG_DUA_ARAS;
+  var kumpulanSemasa = null;
 
   function warnaKelas(kelas) {
     return WARNA[senaraiKelas.indexOf(kelas) % WARNA.length];
@@ -371,16 +416,78 @@
   }
 
   function tunjuk(view, tajukMs, tajukZh) {
-    [viewKelas, viewNama, viewSah].forEach(function (v) { v.classList.add('hidden'); });
+    [viewTahap, viewKelas, viewNama, viewSah].forEach(function (v) { v.classList.add('hidden'); });
     view.classList.remove('hidden');
     tajuk.innerHTML = tajukMs + '<span class="zh">' + tajukZh + '</span>';
     tajuk.focus();  // bawa fokus + umumkan langkah baru kepada pembaca skrin
   }
 
+  function showTahap() {
+    kumpulanSemasa = null;
+    tunjuk(viewTahap, 'Pilih tahun / tingkatan!', '选你的年级');
+  }
+
   function showKelas() {
+    binaGridKelas(duaAras ? kumpulanKelas[kumpulanSemasa] : senaraiKelas);
     tunjuk(viewKelas, 'Pilih kelas kamu!', '选你的班级');
     search.value = '';
   }
+
+  function binaGridKelas(senarai) {
+    gridKelas.innerHTML = '';
+    if (duaAras) {
+      barTahap.classList.remove('hidden');
+      namaTahap.textContent = kumpulanSemasa;
+      namaTahap.style.background = WARNA[senaraiKumpulan.indexOf(kumpulanSemasa) % WARNA.length];
+    }
+    senarai.forEach(function (kelas, i) {
+      var b = document.createElement('button');
+      b.className = 'tile kelas-tile';
+      b.style.setProperty('--tile', warnaKelas(kelas));
+      b.style.setProperty('--i', i);
+      var big = document.createElement('span');
+      big.className = 'big';
+      big.textContent = labelBesar(kelas);
+      var label = document.createElement('span');
+      label.className = 'label';
+      label.textContent = kelas;
+      b.appendChild(big);
+      b.appendChild(label);
+      b.addEventListener('click', function () { showNama(kelas); });
+      gridKelas.appendChild(b);
+    });
+  }
+
+  function binaGridTahap() {
+    senaraiKumpulan.forEach(function (k, i) {
+      var b = document.createElement('button');
+      b.className = 'tile kelas-tile';
+      b.style.setProperty('--tile', WARNA[i % WARNA.length]);
+      b.style.setProperty('--i', i);
+      var big = document.createElement('span');
+      big.className = 'big';
+      big.textContent = labelBesar(k);
+      var label = document.createElement('span');
+      label.className = 'label';
+      label.textContent = k + ' · ' + kumpulanKelas[k].length + ' kelas';
+      b.appendChild(big);
+      b.appendChild(label);
+      b.addEventListener('click', function () { kumpulanSemasa = k; showKelas(); });
+      gridTahap.appendChild(b);
+    });
+  }
+
+  // paparan awal — tanpa tunjuk() supaya fokus tidak dialih semasa muat
+  if (duaAras) {
+    binaGridTahap();
+    viewKelas.classList.add('hidden');
+    viewTahap.classList.remove('hidden');
+    tajuk.innerHTML = 'Pilih tahun / tingkatan!<span class="zh">选你的年级</span>';
+  } else {
+    binaGridKelas(senaraiKelas);
+  }
+
+  document.getElementById('btn-back-tahap').addEventListener('click', showTahap);
 
   function showNama(kelas) {
     kelasSemasa = kelas;
@@ -449,23 +556,6 @@
     tunjuk(viewSah, 'Betul ke ini kamu?', '这是你吗？');
     document.getElementById('btn-ya').focus();
   }
-
-  senaraiKelas.forEach(function (kelas, i) {
-    var b = document.createElement('button');
-    b.className = 'tile kelas-tile';
-    b.style.setProperty('--tile', warnaKelas(kelas));
-    b.style.setProperty('--i', i);
-    var big = document.createElement('span');
-    big.className = 'big';
-    big.textContent = labelBesar(kelas);
-    var label = document.createElement('span');
-    label.className = 'label';
-    label.textContent = kelas;
-    b.appendChild(big);
-    b.appendChild(label);
-    b.addEventListener('click', function () { showNama(kelas); });
-    gridKelas.appendChild(b);
-  });
 
   document.getElementById('btn-back').addEventListener('click', showKelas);
   document.getElementById('btn-bukan').addEventListener('click', function () { showNama(kelasSemasa); });
