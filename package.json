@@ -1,0 +1,11 @@
+{
+  "name": "quick-login-delima",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "No-admin DELIMa login launcher for Malaysian classrooms + distribution site",
+  "scripts": {
+    "build:zip": "node tools/build-zip.mjs",
+    "test": "node --test"
+  }
+}
