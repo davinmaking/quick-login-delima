@@ -2,6 +2,15 @@ const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 const cell = (row, i) => (row && row[i] != null ? String(row[i]).trim() : "");
 const titleCase = (s) => s.toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase());
 
+const HEADER_RE = [/^kelas$/, /^nama$/, /^e-?mel$|^email$/];
+// returns index of a generic "Kelas|Nama|Emel" header row, or -1
+function genericHeaderIndex(rows) {
+  const i = rows.findIndex((r) => r && r.some((c) => String(c ?? "").trim() !== ""));
+  if (i < 0) return -1;
+  const h = [cell(rows[i], 0), cell(rows[i], 1), cell(rows[i], 2)].map((s) => s.toLowerCase());
+  return HEADER_RE.every((re, j) => re.test(h[j])) ? i : -1;
+}
+
 // sheets: { name: rows[][] }  ->  { roster, total, dropped }
 export function buildRoster(sheets) {
   const roster = {}, seen = {};
@@ -17,7 +26,15 @@ export function buildRoster(sheets) {
   for (const [name, rows] of Object.entries(sheets)) {
     const up = name.toUpperCase();
     if (up === "GURU") continue;
-    if (up === "PPKI") {
+    const hi = genericHeaderIndex(rows);
+    if (hi >= 0) {
+      for (const r of rows.slice(hi + 1)) {
+        const kelas = cell(r, 0).replace(/\s+/g, " ");
+        const nama = cell(r, 1), emel = cell(r, 2);
+        if (!kelas) { if (nama || emel) dropped++; continue; }
+        add(kelas, nama, emel);
+      }
+    } else if (up === "PPKI") {
       for (const [nc, ec] of [[1, 2], [4, 5]]) {
         let label = "PPKI";
         for (const r of rows) {
