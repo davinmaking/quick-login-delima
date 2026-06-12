@@ -1,16 +1,26 @@
 // Zips launcher/ into site/muat-turun/quick-login-delima.zip (the installer the site serves).
-// Uses the system `zip` so there is no npm dependency. Run: node tools/build-zip.mjs
-import { execSync } from "node:child_process";
-import { mkdirSync, rmSync } from "node:fs";
+// Pure-Node (archiver) so it runs in CI without a system `zip`. Run: node tools/build-zip.mjs
+import archiver from "archiver";
+import { createWriteStream, mkdirSync, rmSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const out = join(root, "site", "muat-turun", "quick-login-delima.zip");
+const launcher = join(root, "launcher");
+const outDir = join(root, "site", "muat-turun");
+const out = join(outDir, "quick-login-delima.zip");
 
-mkdirSync(join(root, "site", "muat-turun"), { recursive: true });
+mkdirSync(outDir, { recursive: true });
 rmSync(out, { force: true });
-execSync(`cd "${root}/launcher" && zip -r -X "${out}" . -x '.DS_Store' -x '__MACOSX/*'`, {
-  stdio: "inherit",
-});
-console.log("built", out);
+
+const output = createWriteStream(out);
+const archive = archiver("zip", { zlib: { level: 9 } });
+
+output.on("close", () => console.log("built", out, `(${archive.pointer()} bytes)`));
+archive.on("warning", (err) => { throw err; });
+archive.on("error", (err) => { throw err; });
+
+archive.pipe(output);
+// add launcher/ contents at the zip root; skip macOS junk
+archive.glob("**/*", { cwd: launcher, dot: false, ignore: ["**/.DS_Store", "**/__MACOSX/**"] });
+await archive.finalize();
