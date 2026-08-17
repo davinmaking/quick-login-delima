@@ -35,6 +35,10 @@
 - Desktop path resolved with PowerShell `[Environment]::GetFolderPath('Desktop')` — school PCs usually redirect Desktop to OneDrive, so never hardcode `%USERPROFILE%\Desktop`
 - Chrome incognito = clean slate between pupils + web-only login (no "Turn on sync?")
 - Registry policy path (`...\SOFTWARE\Policies\Google\Chrome`) is admin-only in BOTH `HKLM` and `HKCU` — do NOT use it; the no-admin install relies on the shortcut + CLI flags only
+- **`IncognitoModeAvailability=1` makes Chrome silently ignore `--incognito`** and open a normal window. Nothing errors, the icon still works, but pupil sessions stop being wiped between classes. `pasang.bat` reads that key (read-only, no admin) and warns; the field check is "does the window look incognito"
+- **`pasang.bat` must self-check before copying.** `robocopy /XF pasang.bat` means that if the script is the only file present (running it from inside a zip preview window), it copies nothing, returns 0, and still reports success. Guards: `index.html` + `data/roster.js` must sit beside it, refuse to run from a drive root (`%~dp0.` == `%~d0\.`, else robocopy walks `System Volume Information`), and re-check `%DEST%\index.html` after the copy
+- **PowerShell may be in Constrained Language Mode** (AppLocker), which blocks `New-Object -ComObject WScript.Shell` — so the shortcut step ends with `if (-not (Test-Path $p)) { exit 1 }` rather than trusting the exit code
+- The Desktop shortcut belongs to the Windows account that ran `pasang.bat`. Install under the account pupils actually use
 
 ## Deploy
 
@@ -48,6 +52,11 @@
 - **"Retry deployment" rebuilds the SAME old commit.** To ship a fix, push a NEW commit (an empty commit works); retry will not pick up newer code.
 - **git push identity:** the local SSH key authenticates as `davinwzy`, but the repo is under `davinmaking` → SSH push is denied. Use an HTTPS remote + the gh token: `gh auth setup-git`, then `git remote set-url origin https://github.com/davinmaking/quick-login-delima.git`.
 - **Lighthouse bar = a11y/BP/SEO 100 on every page.** Every page needs `<link rel="icon" href="favicon.png">`, else the browser's auto `/favicon.ico` request 404s and dings best-practices.
+- **`.bat` and `BACA-SAYA.txt` are pinned to CRLF by `.gitattributes`** (`text eol=crlf`). The repo stores LF, the working tree and Cloudflare CI checkout get CRLF. Don't "fix" a .bat back to LF.
+- **Escape hatch when there is no time for a Cloudflare rebuild:** build the personalized zip locally — import `site/js/jana.js` in Node, read the xlsx with SheetJS, pack `launcher/` with fflate, swap in `data/roster.js`. Same parser as `jana.html`, so the artifact is equivalent. Write the output to `~/Downloads`, **never inside this repo**.
+  - Node resolves `node_modules` upward from the *script's* directory, so a script parked in a scratchpad can't see the repo's deps. Run it as `node --input-type=module -e "$(cat script.mjs)"` with cwd = repo.
+- **Copying to a FAT32 pendrive with `cp -R` creates `._*` AppleDouble sidecars**, and robocopy will happily install them into `C:\login-launcher`. Use `cp -RX`, or `dot_clean -m <dir>` afterwards. Upside of FAT32: it drops the Mark-of-the-Web stream, so no "Open File - Security Warning" on the .bat.
+- **Verify the artifact by reading it back off the USB**, not from `launcher/` — that is the only check that covers copy-stage damage (line endings, missing `data/`, stray sidecars).
 
 ## Commands
 
