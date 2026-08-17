@@ -1,0 +1,3 @@
+# Batch + panduan files must reach Windows with CRLF endings.
+*.bat text eol=crlf
+BACA-SAYA.txt text eol=crlf

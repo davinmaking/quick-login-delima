@@ -55,3 +55,5 @@
 - Run parser tests: `npm test` (`node --test` → `tests/parser.test.mjs`)
 - Local site preview: `cd site && python3 -m http.server 8777`
 - Roster parser `site/js/jana.js`: legacy school format ported from `~/Developer/makmal-komputer/login-launcher/build-roster-xlsx.py` (Tahun/Pra sheets; PPKI = two side-by-side blocks; GURU skipped) PLUS generic `Kelas | Nama | Emel` template sheets (header-detected, class keys verbatim)
+- **Legacy sheet columns are DETECTED, never hard-coded** (`lajurEmel` / `lajurNama`). Real exports differ per sheet: `Tahun N` = `[bil, nama, emel]`, `Pra` = `[nama, emel]`, `PPKI` blocks start at cols 0 and 3. Hard-coded indices silently dropped every Pra + PPKI pupil in the 2026 export
+- Sanity-check any generated roster against the xlsx: a pupil with a blank email column is legitimately dropped, and a pupil listed in two sheets is kept only in the first one — both show up in the "Dibuang" counter

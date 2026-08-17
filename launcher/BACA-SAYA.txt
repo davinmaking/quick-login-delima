@@ -1,16 +1,43 @@
-QUICK LOGIN DELIMa — Panduan Pemasangan Ringkas
+QUICK LOGIN DELIMa - Panduan Pemasangan Ringkas
 ================================================
 
+SEBELUM MULA
+------------
+* EKSTRAK zip ini sepenuhnya dahulu. Jangan klik pasang.bat
+  terus dari dalam tetingkap zip - pemasangan akan tidak lengkap.
+* Letak folder yang diekstrak di dalam SATU FOLDER, contoh
+  E:\quick-login\ - jangan di akar pemacu USB (E:\ sahaja).
+
+LANGKAH
+-------
 1. Klik dua kali pada fail "pasang.bat" untuk memasang launcher.
    (Tiada hak Administrator diperlukan.)
 
 2. Ikon "Quick Login" akan muncul di Desktop selepas pemasangan selesai.
+   Nota: ikon itu milik akaun Windows yang menjalankan pasang.bat.
+   Pasang menggunakan akaun yang sama seperti yang digunakan murid.
 
 3. Murid klik ikon "Quick Login" di Desktop, pilih kelas, klik nama,
    kemudian taip kata laluan Google sahaja.
 
-4. Untuk tukar atau kemaskini senarai kelas:
+4. PENTING - selepas selesai, TUTUP SELURUH tetingkap Chrome
+   (bukan tutup tab sahaja). Kalau tetingkap samaran masih terbuka,
+   murid seterusnya akan berkongsi sesi murid sebelumnya.
+
+5. Untuk tukar atau kemaskini senarai kelas:
    - Jana fail roster baharu di: quicklogin.davinhub.com
    - Ganti fail "data\roster.js" di dalam folder C:\login-launcher
 
-5. Untuk nyahpasang, klik dua kali pada fail "nyahpasang.bat".
+6. Untuk nyahpasang, klik dua kali pada fail "nyahpasang.bat"
+   (fail ini kekal di dalam folder pemasang / USB, ia tidak disalin
+   ke C:\login-launcher).
+
+KALAU ADA RALAT
+---------------
+"gagal menyalin"       -> anda menjalankan pasang.bat dari akar pemacu,
+                          atau C:\login-launcher milik akaun Windows lain.
+"index.html tiada"     -> zip belum diekstrak sepenuhnya.
+"Chrome tidak dijumpai"-> komputer itu belum ada Google Chrome.
+"gagal buat ikon"      -> PowerShell dihadkan polisi sekolah.
+"AMARAN ... samaran"   -> polisi sekolah mematikan incognito; sesi murid
+                          tidak akan dipadam automatik.

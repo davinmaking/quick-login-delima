@@ -24,6 +24,26 @@ test("PPKI two blocks with labels", () => {
   assert.deepEqual(Object.keys(roster).sort(), ["PPKI Joyful", "PPKI Sunshine"]);
 });
 
+test("legacy sheets: column positions are detected, not hard-coded", () => {
+  const sheets = {
+    // real export: Pra has NO running-number column
+    Pra:  [["Dahlia", "dahlia@moe-dl.edu.my"], ["Melur", "melur@moe-dl.edu.my"]],
+    // real export: PPKI blocks start at column 0 and column 3
+    PPKI: [
+      ["Sunshine", "",                    "", "Joyful", ""],
+      ["Aiman",    "aiman@moe-dl.edu.my", "", "Bala",   "bala@moe-dl.edu.my"],
+    ],
+    // still works with the leading "bil." column
+    Tahun4: [["1", "Siti", "siti@moe-dl.edu.my"]],
+  };
+  const { roster, total } = buildRoster(sheets);
+  assert.equal(total, 5);
+  assert.equal(roster["Prasekolah"].length, 2);
+  assert.deepEqual(roster["PPKI Sunshine"], [{ nama: "AIMAN", email: "aiman@moe-dl.edu.my" }]);
+  assert.deepEqual(roster["PPKI Joyful"], [{ nama: "BALA", email: "bala@moe-dl.edu.my" }]);
+  assert.deepEqual(roster["Tahun 4"], [{ nama: "SITI", email: "siti@moe-dl.edu.my" }]);
+});
+
 test("generic template sheet: header detected, class keys verbatim", () => {
   const sheets = { Senarai: [
     ["Kelas", "Nama", "Emel"],
