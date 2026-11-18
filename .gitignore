@@ -3,3 +3,4 @@ node_modules/
 site/muat-turun/*.zip
 *.bak-*
 .playwright-mcp/
+HANDOFF.md
